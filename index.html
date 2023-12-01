@@ -1,37 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokemon Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokemon Game</title>
+  <style>
+    #message {
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <script>
-        const pokemonNames = ['Bulbasaur', 'Charmander', 'Squirtle', 'Pikachu', 'Jigglypuff', 'Meowth', 'Psyduck', 'Growlithe', 'Abra', 'Snorlax'];
-        let caughtPokemon = [];
 
-        function spawnPokemon() {
-            const randomIndex = Math.floor(Math.random() * pokemonNames.length);
-            const pokemonName = pokemonNames[randomIndex];
+<h1>Pokemon Game</h1>
+<button onclick="spawnPokemon()">Spawn Pokemon</button>
+<p id="message"></p>
 
-            console.log(`A wild ${pokemonName} appeared!`);
-            throwPokeball(pokemonName);
-        }
+<script>
+  const pokemonList = ["Bulbasaur", "Charmander", "Squirtle", "Pikachu", "Jigglypuff", "Meowth", "Psyduck", "Geodude", "Magikarp", "Snorlax"];
+  const caughtPokemon = [];
 
-        function throwPokeball(pokemonName) {
-            const catchChance = Math.random() * 100;
+  function spawnPokemon() {
+    const randomPokemon = getRandomPokemon();
+    const message = document.getElementById('message');
+    message.innerHTML = `A wild ${randomPokemon} appeared! Press a key to throw a Pokeball.`;
 
-            if (catchChance > (75 + (pokemonNames.indexOf(pokemonName) * 5))) {
-                caughtPokemon.push(pokemonName);
-                console.log(`Congratulations! You caught ${pokemonName}!`);
-            } else {
-                console.log(`Oh no! ${pokemonName} escaped! Try again.`);
-            }
-        }
+    document.onkeydown = function(event) {
+      const chance = Math.random() * 100;
+      if (chance > (75 - pokemonList.indexOf(randomPokemon) * 5)) {
+        caughtPokemon.push(randomPokemon);
+        message.innerHTML = `Congratulations! You caught ${randomPokemon}!`;
+      } else {
+        message.innerHTML = `${randomPokemon} escaped! Try again.`;
+      }
 
-        // Example: Spawn a Pokemon
-        spawnPokemon();
-    </script>
+      document.onkeydown = null; // Disable further key presses
+    };
+  }
+
+  function getRandomPokemon() {
+    const randomIndex = Math.floor(Math.random() * pokemonList.length);
+    return pokemonList[randomIndex];
+  }
+</script>
+
 </body>
 </html>
