@@ -2,152 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snake Game</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            font-family: 'Arial', sans-serif;
-        }
-
-        canvas {
-            border: 1px solid #000;
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #009900;
-            color: white;
-        }
-
-        #score {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-    </style>
+    <title>Pokemon Game</title>
 </head>
 <body>
-    <canvas id="snakeCanvas" width="400" height="400"></canvas>
-    <div id="score">Score: 0</div>
-    <button onclick="startGame()">Start Game</button>
-    <button onclick="resetGame()" style="display: none;">Restart Game</button>
-
     <script>
-        const canvas = document.getElementById('snakeCanvas');
-        const ctx = canvas.getContext('2d');
+        const pokemonNames = ['Bulbasaur', 'Charmander', 'Squirtle', 'Pikachu', 'Jigglypuff', 'Meowth', 'Psyduck', 'Growlithe', 'Abra', 'Snorlax'];
+        let caughtPokemon = [];
 
-        const gridSize = 20;
-        let snake = [{ x: 0, y: 0 }];
-        let direction = 'right';
-        let food = { x: 0, y: 0 };
-        let score = 0;
-        let gameRunning = false;
-        let gameInterval;
+        function spawnPokemon() {
+            const randomIndex = Math.floor(Math.random() * pokemonNames.length);
+            const pokemonName = pokemonNames[randomIndex];
 
-        function drawSnake() {
-            ctx.fillStyle = '#009900';
-            snake.forEach(segment => {
-                ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
-            });
+            console.log(`A wild ${pokemonName} appeared!`);
+            throwPokeball(pokemonName);
         }
 
-        function drawFood() {
-            ctx.fillStyle = '#FF0000';
-            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
-        }
+        function throwPokeball(pokemonName) {
+            const catchChance = Math.random() * 100;
 
-        function update() {
-            const head = { ...snake[0] };
-
-            switch (direction) {
-                case 'up':
-                    head.y -= 1;
-                    break;
-                case 'down':
-                    head.y += 1;
-                    break;
-                case 'left':
-                    head.x -= 1;
-                    break;
-                case 'right':
-                    head.x += 1;
-                    break;
-            }
-
-            snake.unshift(head);
-
-            // Check if snake eats food
-            if (head.x === food.x && head.y === food.y) {
-                generateFood();
-                score += 10;
-                updateScore();
+            if (catchChance > (75 + (pokemonNames.indexOf(pokemonName) * 5))) {
+                caughtPokemon.push(pokemonName);
+                console.log(`Congratulations! You caught ${pokemonName}!`);
             } else {
-                snake.pop();
-            }
-
-            // Check if snake hits walls
-            if (head.x < 0 || head.x >= canvas.width / gridSize || head.y < 0 || head.y >= canvas.height / gridSize) {
-                endGame();
-            }
-
-            // Check if snake hits itself
-            for (let i = 1; i < snake.length; i++) {
-                if (head.x === snake[i].x && head.y === snake[i].y) {
-                    endGame();
-                }
-            }
-
-            // Clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            drawFood();
-            drawSnake();
-        }
-
-        function generateFood() {
-            food.x = Math.floor(Math.random() * (canvas.width / gridSize));
-            food.y = Math.floor(Math.random() * (canvas.height / gridSize));
-        }
-
-        function updateScore() {
-            document.getElementById('score').textContent = 'Score: ' + score;
-        }
-
-        function startGame() {
-            if (!gameRunning) {
-                gameRunning = true;
-                score = 0;
-                updateScore();
-                snake = [{ x: 0, y: 0 }];
-                direction = 'right';
-                generateFood();
-                gameInterval = setInterval(update, 200);
+                console.log(`Oh no! ${pokemonName} escaped! Try again.`);
             }
         }
 
-        function endGame() {
-            clearInterval(gameInterval);
-            gameRunning = false;
-            alert('Game Over! Your score: ' + score);
-            document.getElementById('score').textContent = 'Score: 0';
-            document.getElementById('restartButton').style.display = 'block';
-        }
-
-        function resetGame() {
-            document.getElementById('restartButton').style.display = 'none';
-            startGame();
-        }
+        // Example: Spawn a Pokemon
+        spawnPokemon();
     </script>
 </body>
 </html>
