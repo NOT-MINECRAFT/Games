@@ -32,20 +32,31 @@
       color: green;
     }
 
-    #spinButton {
+    #spinButton, #subscribeButton {
       font-size: 1.2em;
       padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
+      margin: 10px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      display: block;
-      margin: 20px auto;
+    }
+
+    #spinButton {
+      background-color: #4CAF50;
+      color: white;
     }
 
     #spinButton:hover {
       background-color: #45a049;
+    }
+
+    #subscribeButton {
+      background-color: #3498db;
+      color: white;
+    }
+
+    #subscribeButton:hover {
+      background-color: #2980b9;
     }
   </style>
 </head>
@@ -57,6 +68,8 @@
   <button onclick="spinWheel()" id="spinButton">Spin the Lucky Wheel</button>
   <div id="result"></div>
   <p>Take a screenshot of your winnings and send it to: <strong>skyking5256@gmail.com</strong></p>
+  <p>Subscribe to our channel <strong>NOT_MINECRAFT</strong></p>
+  <button id="subscribeButton">Subscribe</button>
 
   <script>
     let timerSeconds = 15;
