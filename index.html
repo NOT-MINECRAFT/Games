@@ -28,14 +28,13 @@
   <h1>Lucky Wheel Game</h1>
   <p>Click the "Spin the Lucky Wheel" button after the timer reaches 0.</p>
   <div id="timer">Timer: 15</div>
-  <button onclick="spinWheel()" id="spinButton" disabled>Spin the Lucky Wheel</button>
+  <button onclick="spinWheel()" id="spinButton">Spin the Lucky Wheel</button>
   <div id="result"></div>
   <p>Take a screenshot of your winnings and send it to: <strong>skyking5256@gmail.com</strong></p>
 
   <script>
     let timerSeconds = 15;
     let timerInterval;
-    let canSpin = true;
 
     function startTimer() {
       timerInterval = setInterval(updateTimer, 1000);
@@ -45,18 +44,16 @@
       document.getElementById("timer").textContent = `Timer: ${timerSeconds}`;
       if (timerSeconds <= 0) {
         clearInterval(timerInterval);
-        document.getElementById("spinButton").disabled = false;
-        canSpin = true;
+        document.getElementById("spinButton").style.display = "block";
       } else {
         timerSeconds--;
       }
     }
 
     function spinWheel() {
-      if (!canSpin) {
-        alert("Wait for the timer to reach 0 before spinning again.");
-        return;
-      }
+      document.getElementById("spinButton").style.display = "none";
+      timerSeconds = 15;
+      startTimer();
 
       const randomNumber = Math.random();
 
@@ -76,13 +73,6 @@
       }
 
       document.getElementById("result").textContent = resultMessage;
-
-      // Reset timer and button state
-      timerSeconds = 15;
-      clearInterval(timerInterval);
-      startTimer();
-      document.getElementById("spinButton").disabled = true;
-      canSpin = false;
     }
 
     startTimer(); // Start the initial timer
