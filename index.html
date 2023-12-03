@@ -39,6 +39,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      display: inline-block;
     }
 
     #spinButton {
@@ -69,11 +70,13 @@
   <div id="result"></div>
   <p>Take a screenshot of your winnings and send it to: <strong>skyking5256@gmail.com</strong></p>
   <p>Subscribe to our channel <strong>NOT_MINECRAFT</strong></p>
-  <button id="subscribeButton">Subscribe</button>
+  <button id="subscribeButton" onclick="subscribeToChannel()">Subscribe</button>
+  <p id="clickCount">Spin Button Clicks: 0</p>
 
   <script>
     let timerSeconds = 15;
     let timerInterval;
+    let clickCount = 0;
 
     function startTimer() {
       timerInterval = setInterval(updateTimer, 1000);
@@ -90,6 +93,8 @@
     }
 
     function spinWheel() {
+      clickCount++;
+      document.getElementById("clickCount").textContent = `Spin Button Clicks: ${clickCount}`;
       document.getElementById("spinButton").style.display = "none";
       timerSeconds = 15;
       startTimer();
@@ -112,6 +117,11 @@
       }
 
       document.getElementById("result").textContent = resultMessage;
+    }
+
+    function subscribeToChannel() {
+      // Replace the URL with your YouTube channel URL
+      window.location.href = "https://youtube.com/@NOT_MINECRAFT12?si=is5mJIIOWCxsAwPj";
     }
 
     startTimer(); // Start the initial timer
