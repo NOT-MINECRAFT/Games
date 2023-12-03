@@ -35,7 +35,7 @@
   <script>
     let timerSeconds = 15;
     let timerInterval;
-    let canSpin = false;
+    let canSpin = true;
 
     function startTimer() {
       timerInterval = setInterval(updateTimer, 1000);
@@ -79,6 +79,7 @@
 
       // Reset timer and button state
       timerSeconds = 15;
+      clearInterval(timerInterval);
       startTimer();
       document.getElementById("spinButton").disabled = true;
       canSpin = false;
