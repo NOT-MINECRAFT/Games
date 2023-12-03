@@ -76,6 +76,12 @@
       }
 
       document.getElementById("result").textContent = resultMessage;
+
+      // Reset timer and button state
+      timerSeconds = 15;
+      startTimer();
+      document.getElementById("spinButton").disabled = true;
+      canSpin = false;
     }
 
     startTimer(); // Start the initial timer
