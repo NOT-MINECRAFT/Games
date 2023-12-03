@@ -3,69 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pokémon Catching Game</title>
+  <title>Lucky Wheel Game</title>
   <style>
     body {
-      text-align: center;
       font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    #timer {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+    }
+
+    #result {
+      font-size: 2em;
+      margin-top: 20px;
+      color: green;
     }
   </style>
 </head>
 <body>
 
-<h1>Pokémon Catching Game</h1>
+  <h1>Lucky Wheel Game</h1>
+  <p>Click the "Spin the Lucky Wheel" button after the timer reaches 0.</p>
+  <div id="timer">Timer: 15</div>
+  <button onclick="spinWheel()" id="spinButton" disabled>Spin the Lucky Wheel</button>
+  <div id="result"></div>
+  <p>Take a screenshot of your winnings and send it to: <strong>skyking5256@gmail.com</strong></p>
 
-<button onclick="goThroughGrass()">Go through grass</button>
-<button onclick="showCaughtPokemons()">View Caught Pokémons</button>
-<button onclick="resetGame()">Reset Game</button>
+  <script>
+    let timerSeconds = 15;
+    let timerInterval;
+    let canSpin = false;
 
-<p id="gameMessage"></p>
-
-<script>
-  let pokemonList = ["Pikachu", "Bulbasaur", "Charmander", "Squirtle"];
-  let caughtPokemons = [];
-
-  function goThroughGrass() {
-    document.getElementById("gameMessage").innerText = "";
-    
-    if (Math.random() < 0.5) { // 50% chance of spawning a Pokémon
-      let randomPokemon = pokemonList[Math.floor(Math.random() * pokemonList.length)];
-      document.getElementById("gameMessage").innerText = `A wild ${randomPokemon} appeared!`;
-      createThrowButton(randomPokemon);
-    } else {
-      document.getElementById("gameMessage").innerText = "No Pokémon in the grass. Try again!";
+    function startTimer() {
+      timerInterval = setInterval(updateTimer, 1000);
     }
-  }
 
-  function createThrowButton(pokemon) {
-    const throwButton = document.createElement("button");
-    throwButton.innerText = "Throw Pokeball";
-    throwButton.onclick = function() { throwPokeball(pokemon); };
-    document.getElementById("gameMessage").appendChild(throwButton);
-  }
-
-  function throwPokeball(pokemon) {
-    if (Math.random() < 0.75) { // 75% chance of catching the Pokémon
-      caughtPokemons.push(pokemon);
-      document.getElementById("gameMessage").innerText = `${pokemon} was caught!`;
-    } else {
-      document.getElementById("gameMessage").innerText = `${pokemon} escaped! Try again.`;
+    function updateTimer() {
+      document.getElementById("timer").textContent = `Timer: ${timerSeconds}`;
+      if (timerSeconds <= 0) {
+        clearInterval(timerInterval);
+        document.getElementById("spinButton").disabled = false;
+        canSpin = true;
+      } else {
+        timerSeconds--;
+      }
     }
-  }
 
-  function showCaughtPokemons() {
-    if (caughtPokemons.length === 0) {
-      document.getElementById("gameMessage").innerText = "You haven't caught any Pokémon yet.";
-    } else {
-      document.getElementById("gameMessage").innerText = "Caught Pokémons: " + caughtPokemons.join(", ");
+    function spinWheel() {
+      if (!canSpin) {
+        alert("Wait for the timer to reach 0 before spinning again.");
+        return;
+      }
+
+      const randomNumber = Math.random();
+
+      let resultMessage;
+      if (randomNumber < 0.05) {
+        resultMessage = "Congratulations! You won 50 diamonds!";
+      } else if (randomNumber < 0.3) {
+        resultMessage = "You won 1 stone.";
+      } else if (randomNumber < 0.6) {
+        resultMessage = "You won 1 dirt.";
+      } else if (randomNumber < 0.8) {
+        resultMessage = "You won some steel.";
+      } else if (randomNumber < 0.9) {
+        resultMessage = "You won some copper.";
+      } else {
+        resultMessage = "Sorry, no prize this time. Try again!";
+      }
+
+      document.getElementById("result").textContent = resultMessage;
     }
-  }
 
-  function resetGame() {
-    document.getElementById("gameMessage").innerText = "";
-    caughtPokemons = [];
-  }
-</script>
+    startTimer(); // Start the initial timer
+  </script>
 
 </body>
 </html>
